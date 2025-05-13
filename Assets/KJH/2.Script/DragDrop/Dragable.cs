@@ -55,6 +55,7 @@ public class Draggable : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+       
         if (!isDragged) return;
         isDragged = false;
         canvasGroup.blocksRaycasts = true;

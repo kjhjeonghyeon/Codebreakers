@@ -3,15 +3,20 @@ using UnityEngine.EventSystems;
 
 public class SlotDropHandler : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
-    // 드롭 시 부모를 슬롯으로 변경
+    // 드롭 시 부모를 슬롯으로 변경 (슬롯에 하나만 허용)
     public void OnDrop(PointerEventData eventData)
     {
         var dragged = eventData.pointerDrag;
         if (dragged == null) return;
 
         var draggable = dragged.GetComponent<Draggable>();
-        if (draggable != null)
+        if (draggable == null) return;
+
+        // 이미 슬롯에 자식이 있으면 아무 동작도 하지 않음
+        if (transform.childCount == 0)
+        {
             draggable.transform.SetParent(transform);
+        }
     }
 
     // 슬롯 클릭 시 슬롯 자식(들)을 모두 초기 위치로 되돌림
