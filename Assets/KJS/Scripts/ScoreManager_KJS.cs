@@ -4,8 +4,8 @@ using TMPro;
 
 public class ScoreManager_KJS : MonoBehaviour
 {
-    public int baseAmount = 100000;
-    public float penaltyPerSecond = 1500f;
+    public int baseAmount = 2000000000;
+    public float penaltyPerSecond = 300000f;
     public float maxTime = 60f;
 
     private float elapsedTime = 0f;
@@ -17,21 +17,18 @@ public class ScoreManager_KJS : MonoBehaviour
     public GameObject resultPanel;
 
     private Coroutine hideCoroutine;
-
     void Start()
     {
-        // ✅ 씬 전환 후 이전 데이터 복원
-        if (ScoreDataCarrier_KJS.Instance != null)
+        Debug.Log($"🧪 Start() 시점 baseAmount = {baseAmount}, penalty = {penaltyPerSecond}");
+
+        if (ScoreDataCarrier_KJS.Instance != null && ScoreDataCarrier_KJS.Instance.hasScoreBeenSet)
         {
             elapsedTime = ScoreDataCarrier_KJS.Instance.ElapsedTime;
-            finalAmount = ScoreDataCarrier_KJS.Instance.FinalScore;
-
-            Debug.Log($"📥 ScoreManager 초기화됨 - 시간: {elapsedTime}, 점수: {finalAmount}");
+            Debug.Log($"📥 점수 복원 생략, 시간만 복원: {elapsedTime}");
         }
 
         if (resultPanel != null)
             resultPanel.SetActive(false);
-       
     }
 
     void Update()
@@ -56,13 +53,12 @@ public class ScoreManager_KJS : MonoBehaviour
 
     public void FinishScoring()
     {
-        // ✅ 점수 및 시간 저장
         ScoreDataCarrier_KJS.Instance.FinalScore = finalAmount;
         ScoreDataCarrier_KJS.Instance.ElapsedTime = elapsedTime;
+        ScoreDataCarrier_KJS.Instance.hasScoreBeenSet = true; // ✅ 플래그 설정
 
         Debug.Log($"✅ 저장 완료: {finalAmount}점 / {elapsedTime:0.00}초");
 
-        // ✅ 결과 출력
         ShowResultUI();
     }
 

@@ -684,8 +684,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa72856ce4bc2849ac7cb69ccaca96d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseAmount: 100000
-  penaltyPerSecond: 1500
+  baseAmount: 2000000000
+  penaltyPerSecond: 300000
   maxTime: 60
   timerText: {fileID: 738478460}
   resultText: {fileID: 2034202847}
