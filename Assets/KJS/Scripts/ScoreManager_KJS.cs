@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager_KJS : MonoBehaviour
 {
     public int baseAmount = 2000000000;
     public float penaltyPerSecond = 300000f;
     public float maxTime = 60f;
+    private bool hasSceneChanged = false;
+    public string nextSceneName = "Scene 5"; // ⬅️ 이동할 씬 이름 지정
 
     private float elapsedTime = 0f;
     private int finalAmount = 0;
@@ -49,6 +52,12 @@ public class ScoreManager_KJS : MonoBehaviour
 
         // 점수 자동 계산
         finalAmount = Mathf.Max(0, Mathf.FloorToInt(baseAmount - elapsedTime * penaltyPerSecond));
+
+        if (remaining <= 0f && !hasSceneChanged)
+        {
+            hasSceneChanged = true;
+            StartCoroutine(TransitionAfterDelay(1f)); // 감성적 연출 타이밍
+        }
     }
 
     public void FinishScoring()
@@ -84,6 +93,13 @@ public class ScoreManager_KJS : MonoBehaviour
         yield return new WaitForSeconds(5f);
         if (resultPanel != null)
             resultPanel.SetActive(false);
+    }
+
+    private IEnumerator TransitionAfterDelay(float delay)
+    {
+        // 🎬 여기에 사운드, 애니메이션, 화면 페이드 넣어도 좋음
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(nextSceneName);
     }
 }
 
