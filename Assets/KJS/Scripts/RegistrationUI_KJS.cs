@@ -1,43 +1,71 @@
+ï»¿using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Networking;
 
 public class RegistrationUI_KJS : MonoBehaviour
 {
-    [Header("UI ¿ÀºêÁ§Æ®")]
-    public GameObject loginPanel;         // ¡ç Login ÀüÃ¼ ¿ÀºêÁ§Æ®
-    public GameObject registrationPanel;  // ¡ç È¸¿ø°¡ÀÔ ÆĞ³Î
+    [Header("UI ì˜¤ë¸Œì íŠ¸")]
+    public GameObject loginPanel;
+    public GameObject registrationPanel;
 
-    [Header("ÀÔ·Â ÇÊµå")]
+    [Header("ì…ë ¥ í•„ë“œ")]
     public TMP_InputField inputNickname;
     public TMP_InputField inputEmail;
     public TMP_InputField inputPassword;
 
-    // È¸¿ø°¡ÀÔ È­¸é ¿­±â
+    [Header("ì„œë²„ ì£¼ì†Œ")]
+    public string registerURL = "https://your.api/register"; // âœ… ì‹¤ì œ API ì£¼ì†Œë¡œ ë³€ê²½
+
+    [System.Serializable]
+    public class RegistrationData
+    {
+        public string nickname;
+        public string email;
+        public string password;
+    }
+
     public void OpenRegistration()
     {
         if (registrationPanel != null)
             registrationPanel.SetActive(true);
-
         if (loginPanel != null)
             loginPanel.SetActive(false);
     }
 
-    // °¡ÀÔ ¿Ï·á ¹öÆ° Å¬¸¯ ½Ã
     public void SubmitRegistration()
     {
-        string nickname = inputNickname.text;
-        string email = inputEmail.text;
-        string password = inputPassword.text;
-
-        RegistrationData jsonData = new RegistrationData
+        RegistrationData data = new RegistrationData
         {
-            nickname = nickname,
-            email = email,
-            password = password
+            nickname = inputNickname.text,
+            email = inputEmail.text,
+            password = inputPassword.text
         };
 
-        string json = JsonUtility.ToJson(jsonData, true);
-        Debug.Log("È¸¿ø°¡ÀÔ JSON µ¥ÀÌÅÍ:\n" + json);
+        string json = JsonUtility.ToJson(data);
+        Debug.Log("ì „ì†¡í•  JSON:\n" + json);
+
+        StartCoroutine(PostRegistrationData(json));
+    }
+
+    private IEnumerator PostRegistrationData(string jsonData)
+    {
+        UnityWebRequest request = new UnityWebRequest(registerURL, "POST");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("âœ… ì„œë²„ ì „ì†¡ ì„±ê³µ: " + request.downloadHandler.text);
+        }
+        else
+        {
+            Debug.LogError("âŒ ì„œë²„ ì „ì†¡ ì‹¤íŒ¨: " + request.error);
+        }
     }
 }
 

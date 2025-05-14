@@ -17,6 +17,8 @@ public class ScoreManager_KJS : MonoBehaviour
 
     private Coroutine hideCoroutine;
 
+    public TextMeshProUGUI timerText; // ← Timer 텍스트 연결용
+
     void Start()
     {
         if (resultPanel != null)
@@ -31,6 +33,14 @@ public class ScoreManager_KJS : MonoBehaviour
         // 안전 장치: 최대 시간 초과되면 고정
         if (elapsedTime > maxTime)
             elapsedTime = maxTime;
+
+        // 🕒 타이머 표시
+        if (timerText != null)
+        {
+            int minutes = Mathf.FloorToInt(elapsedTime / 60f);
+            int seconds = Mathf.FloorToInt(elapsedTime % 60f);
+            timerText.text = $"{minutes:00}:{seconds:00}";
+        }
     }
 
     public void FinishScoring()

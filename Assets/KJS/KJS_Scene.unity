@@ -614,7 +614,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 321869826}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2043787973}
+        m_TargetAssemblyTypeName: LoginManager_KJS, Assembly-CSharp
+        m_MethodName: OnLoginButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &321869826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4098,6 +4110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2043787972}
   - component: {fileID: 2043787971}
+  - component: {fileID: 2043787973}
   m_Layer: 0
   m_Name: LoginManager
   m_TagString: Untagged
@@ -4122,6 +4135,7 @@ MonoBehaviour:
   inputNickname: {fileID: 673983541}
   inputEmail: {fileID: 123628598}
   inputPassword: {fileID: 1167549451}
+  registerURL: https://your.api/register
 --- !u!4 &2043787972
 Transform:
   m_ObjectHideFlags: 0
@@ -4137,6 +4151,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2043787973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043787970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911c7878100e7264c86abc60455a2260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputEmail: {fileID: 855739507}
+  inputPassword: {fileID: 1580770869}
+  loginURL: https://your.api/login
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
