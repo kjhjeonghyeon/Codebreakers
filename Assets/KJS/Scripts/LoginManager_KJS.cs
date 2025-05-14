@@ -32,6 +32,11 @@ public class LoginManager_KJS : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("✅ 로그인 성공:\n" + request.downloadHandler.text);
+            LoginResponse loginData = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
+
+            PlayerPrefs.SetString("Nickname", loginData.nickname);
+            PlayerPrefs.SetInt("Assets", loginData.assets);
+
 
             // 성공 후 메인 씬으로 이동
             SceneManager.LoadScene("MainScene");

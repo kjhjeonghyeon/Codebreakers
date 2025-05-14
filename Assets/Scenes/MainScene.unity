@@ -852,11 +852,6 @@ PrefabInstance:
       objectReference: {fileID: 426025970}
     - target: {fileID: 2059463791162377301, guid: 8839fbc3a5e42e845afc0a91334154da,
         type: 3}
-      propertyPath: nextSceneName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2059463791162377301, guid: 8839fbc3a5e42e845afc0a91334154da,
-        type: 3}
       propertyPath: sequenceChecker
       value: 
       objectReference: {fileID: 1271809838}
