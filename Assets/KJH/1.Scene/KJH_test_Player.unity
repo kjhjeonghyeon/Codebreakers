@@ -346,12 +346,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &539904702 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9c7cbb1c67d6979498a66c50869800d8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2127503521}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1048740134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -427,14 +421,20 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5358664532732775090, guid: 8839fbc3a5e42e845afc0a91334154da,
         type: 3}
       insertIndex: 0
-      addedObject: {fileID: 539904702}
+      addedObject: {fileID: 1607048938}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8839fbc3a5e42e845afc0a91334154da, type: 3}
---- !u!4 &1421578966 stripped
+--- !u!4 &1415948785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5358664532732775090, guid: 8839fbc3a5e42e845afc0a91334154da,
     type: 3}
   m_PrefabInstance: {fileID: 1048740134}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1607048938 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9c7cbb1c67d6979498a66c50869800d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1995630846}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1843385631
 GameObject:
@@ -528,13 +528,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2127503521
+--- !u!1001 &1995630846
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1421578966}
+    m_TransformParent: {fileID: 1415948785}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9c7cbb1c67d6979498a66c50869800d8,
         type: 3}
@@ -544,7 +544,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9c7cbb1c67d6979498a66c50869800d8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.03
+      value: -1.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9c7cbb1c67d6979498a66c50869800d8,
         type: 3}
@@ -591,6 +591,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Look Away Gesture
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 9c7cbb1c67d6979498a66c50869800d8,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e14f85f090e5cee4ab673423f48ff2d6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
