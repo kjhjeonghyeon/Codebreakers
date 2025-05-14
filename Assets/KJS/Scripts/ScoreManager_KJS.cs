@@ -13,6 +13,7 @@ public class ScoreManager_KJS : MonoBehaviour
 
     private float elapsedTime = 0f;
     private int finalAmount = 0;
+    private bool isTimerRunning = false; // ✅ 타이머 제어용
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
@@ -32,10 +33,13 @@ public class ScoreManager_KJS : MonoBehaviour
 
         if (resultPanel != null)
             resultPanel.SetActive(false);
+        isTimerRunning = false;
     }
 
     void Update()
     {
+        if (!isTimerRunning) return; // ✅ 타이머가 켜지기 전엔 동작 금지
+
         elapsedTime += Time.deltaTime;
         if (elapsedTime > maxTime)
             elapsedTime = maxTime;
@@ -58,6 +62,11 @@ public class ScoreManager_KJS : MonoBehaviour
             hasSceneChanged = true;
             StartCoroutine(TransitionAfterDelay(1f)); // 감성적 연출 타이밍
         }
+    }
+    public void StartTimer()
+    {
+        isTimerRunning = true;
+        Debug.Log("▶️ 타이머 시작됨");
     }
 
     public void FinishScoring()
