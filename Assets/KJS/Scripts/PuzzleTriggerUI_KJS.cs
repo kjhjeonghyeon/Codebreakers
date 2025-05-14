@@ -42,12 +42,6 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
                 cameraScript.enabled = false;
 
             LockCursor(false);
-
-            if (!hasStartedScoring && scoreManager != null)
-            {
-                scoreManager.StartScoring();
-                hasStartedScoring = true;
-            }
         }
     }
 
