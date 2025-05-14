@@ -37,6 +37,10 @@ public class LoginManager_KJS : MonoBehaviour
             PlayerPrefs.SetString("Nickname", loginData.nickname);
             PlayerPrefs.SetInt("Assets", loginData.assets);
 
+            if (ScoreDataCarrier_KJS.Instance != null)
+            {
+                ScoreDataCarrier_KJS.Instance.FinalScore = loginData.assets;
+            }
 
             // 성공 후 메인 씬으로 이동
             SceneManager.LoadScene("MainScene");
