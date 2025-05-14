@@ -2,14 +2,14 @@
 using UnityEngine;
 using TMPro;
 
-public class IntroPannel_KJS : MonoBehaviour
+public class IntroTyper_KJS : MonoBehaviour
 {
-    [Header("UI")]
+    [Header("UI References")]
     public GameObject introPanel;
     public TextMeshProUGUI introText;
-    public ScoreManager_KJS scoreManager;
+    public GameObject skipButton; // (선택)
 
-    [Header("Typing")]
+    [Header("Typing Settings")]
     [TextArea(5, 10)]
     public string fullText =
         "세계 최대 금융 기업, 메타은행(MetaBank)...\n\n" +
@@ -19,20 +19,17 @@ public class IntroPannel_KJS : MonoBehaviour
         "우리는 규칙을 깨고, 코드를 뚫고, 정의를 되찾는다.\n\n" +
         "오늘 밤, 그들의 금고는 열린다.";
 
-    public float typingSpeed = 0.03f;
+    public float typingSpeed = 0.03f; // 글자당 간격
 
     void Start()
     {
         introPanel.SetActive(true);
+        skipButton?.SetActive(false);
         introText.text = "";
-
-        if (scoreManager.timerText != null)
-            scoreManager.timerText.gameObject.SetActive(false);
-
-        StartCoroutine(TypeTextAndStartTimer());
+        StartCoroutine(TypeText());
     }
 
-    IEnumerator TypeTextAndStartTimer()
+    IEnumerator TypeText()
     {
         foreach (char c in fullText)
         {
@@ -40,14 +37,15 @@ public class IntroPannel_KJS : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
-        yield return new WaitForSeconds(0.5f); // 텍스트 다 나오고 잠깐 쉬고
+        // 다 출력된 후 버튼 활성화 (또는 자동 종료 가능)
+        if (skipButton != null)
+            skipButton.SetActive(true);
+    }
 
-        introPanel.SetActive(false); // 패널 끄기
-        if (scoreManager.timerText != null)
-            scoreManager.timerText.gameObject.SetActive(true); // 타이머 텍스트 보이기
-
-        scoreManager.StartTimer(); // 타이머 시작
+    // 버튼 클릭 시 호출 (혹은 TypeText() 끝에 자동 종료 가능)
+    public void CloseIntro()
+    {
+        introPanel.SetActive(false);
+        Debug.Log("✅ 인트로 종료");
     }
 }
-
-
