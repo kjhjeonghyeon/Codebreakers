@@ -7,6 +7,7 @@ public class Block : MonoBehaviour
 
     // 외부에 읽기 전용으로 노출
     public string BlockID => idData != null ? idData.id : "<None>";
+    public string BlockNum => idData != null ? idData.num : "<None>";
 
     private void Awake()
     {
@@ -14,5 +15,7 @@ public class Block : MonoBehaviour
             Debug.LogWarning($"[{name}] idData가 할당되지 않았습니다.");
         else
             Debug.Log($"[{name}] BlockID = {BlockID}");
+
+
     }
 }

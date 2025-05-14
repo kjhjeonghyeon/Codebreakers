@@ -386,9 +386,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctSequence:
-  - Input
-  - Process
-  - Output
+  - 0
+  - 1
+  - 2
   resultText: {fileID: 1457980315}
   submitButton: {fileID: 311094943}
 --- !u!4 &1461998551

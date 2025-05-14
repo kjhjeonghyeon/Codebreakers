@@ -9,9 +9,9 @@ public class SequenceChecker : MonoBehaviour
     [Tooltip("정답으로 요구되는 순서대로 BlockID를 설정하세요.")]
     public List<string> correctSequence = new List<string>
     {
-        "Input",
-        "Process",
-        "Output"
+        "1",
+        "2",
+        "3"
     };
 
     [Tooltip("결과를 보여줄 텍스트(선택사항)")]
@@ -46,7 +46,7 @@ public class SequenceChecker : MonoBehaviour
         //    - 아래에서 위로: OrderBy(b => b.transform.position.y)
         List<string> userSequence = blocks
             .OrderByDescending(b => b.transform.position.y)
-            .Select(b => b.BlockID)
+            .Select(b => b.BlockNum)
             .ToList();
 
         // 3) 정답 비교
