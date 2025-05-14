@@ -10,7 +10,7 @@ public class PlayerMove_KJS : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
-
+    public Animator animator;               //  Inspector에 연결할 Animator
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -32,6 +32,10 @@ public class PlayerMove_KJS : MonoBehaviour
         Transform cam = Camera.main.transform;
         Vector3 camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized; // 수평 방향만
         Vector3 move = (camForward * v + cam.right * h).normalized;
+
+        // 2.5 달리기 입력 체크
+        bool runInput =  move.magnitude > 0.1f;
+        animator.SetBool("isRunning", runInput);   //  Animator 파라미터 세팅
 
         // 3. 이동
         controller.Move(move * moveSpeed * Time.deltaTime);
