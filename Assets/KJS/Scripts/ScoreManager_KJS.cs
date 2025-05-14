@@ -9,45 +9,60 @@ public class ScoreManager_KJS : MonoBehaviour
     public float maxTime = 60f;
 
     private float elapsedTime = 0f;
-
     private int finalAmount = 0;
 
-    public GameObject resultPanel;
+    [Header("UI")]
+    public TextMeshProUGUI timerText;
     public TextMeshProUGUI resultText;
+    public GameObject resultPanel;
 
     private Coroutine hideCoroutine;
 
-    public TextMeshProUGUI timerText; // ← Timer 텍스트 연결용
-
     void Start()
     {
+        // ✅ 씬 전환 후 이전 데이터 복원
+        if (ScoreDataCarrier_KJS.Instance != null)
+        {
+            elapsedTime = ScoreDataCarrier_KJS.Instance.ElapsedTime;
+            finalAmount = ScoreDataCarrier_KJS.Instance.FinalScore;
+
+            Debug.Log($"📥 ScoreManager 초기화됨 - 시간: {elapsedTime}, 점수: {finalAmount}");
+        }
+
         if (resultPanel != null)
             resultPanel.SetActive(false);
+       
     }
 
     void Update()
     {
-        // ⏱️ 시간은 항상 흐름 (씬 시작부터)
         elapsedTime += Time.deltaTime;
-
-        // 안전 장치: 최대 시간 초과되면 고정
         if (elapsedTime > maxTime)
             elapsedTime = maxTime;
 
-        // 🕒 타이머 표시
+        float remaining = maxTime - elapsedTime;
+
+        // 남은 시간 출력
         if (timerText != null)
         {
-            int minutes = Mathf.FloorToInt(elapsedTime / 60f);
-            int seconds = Mathf.FloorToInt(elapsedTime % 60f);
-            timerText.text = $"{minutes:00}:{seconds:00}";
+            int min = Mathf.FloorToInt(remaining / 60f);
+            int sec = Mathf.FloorToInt(remaining % 60f);
+            timerText.text = $"{min:00}:{sec:00}";
         }
+
+        // 점수 자동 계산
+        finalAmount = Mathf.Max(0, Mathf.FloorToInt(baseAmount - elapsedTime * penaltyPerSecond));
     }
 
     public void FinishScoring()
     {
-        // 💸 현재 시점의 점수 계산
-        finalAmount = Mathf.Max(0, Mathf.FloorToInt(baseAmount - elapsedTime * penaltyPerSecond));
+        // ✅ 점수 및 시간 저장
+        ScoreDataCarrier_KJS.Instance.FinalScore = finalAmount;
+        ScoreDataCarrier_KJS.Instance.ElapsedTime = elapsedTime;
 
+        Debug.Log($"✅ 저장 완료: {finalAmount}점 / {elapsedTime:0.00}초");
+
+        // ✅ 결과 출력
         ShowResultUI();
     }
 
@@ -59,7 +74,6 @@ public class ScoreManager_KJS : MonoBehaviour
         if (resultPanel != null)
             resultPanel.SetActive(true);
 
-        // 중복 코루틴 방지
         if (hideCoroutine != null)
             StopCoroutine(hideCoroutine);
 
@@ -72,7 +86,6 @@ public class ScoreManager_KJS : MonoBehaviour
     private IEnumerator HideResultPanelAfterDelay()
     {
         yield return new WaitForSeconds(5f);
-
         if (resultPanel != null)
             resultPanel.SetActive(false);
     }
