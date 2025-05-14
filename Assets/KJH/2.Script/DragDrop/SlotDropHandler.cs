@@ -1,9 +1,10 @@
+ï»¿using UnityEngine.EventSystems;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class SlotDropHandler : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
-    // µå·Ó ½Ã ºÎ¸ğ¸¦ ½½·ÔÀ¸·Î º¯°æ (½½·Ô¿¡ ÇÏ³ª¸¸ Çã¿ë)
+    public SequenceChecker sequenceChecker; // ì¸ìŠ¤í™í„° ì—°ê²°
+
     public void OnDrop(PointerEventData eventData)
     {
         var dragged = eventData.pointerDrag;
@@ -12,14 +13,13 @@ public class SlotDropHandler : MonoBehaviour, IDropHandler, IPointerClickHandler
         var draggable = dragged.GetComponent<Draggable>();
         if (draggable == null) return;
 
-        // ÀÌ¹Ì ½½·Ô¿¡ ÀÚ½ÄÀÌ ÀÖÀ¸¸é ¾Æ¹« µ¿ÀÛµµ ÇÏÁö ¾ÊÀ½
         if (transform.childCount == 0)
         {
             draggable.transform.SetParent(transform);
+            sequenceChecker.RegisterBlock(draggable.GetComponent<Block>()); // âœ… ë“±ë¡
         }
     }
 
-    // ½½·Ô Å¬¸¯ ½Ã ½½·Ô ÀÚ½Ä(µé)À» ¸ğµÎ ÃÊ±â À§Ä¡·Î µÇµ¹¸²
     public void OnPointerClick(PointerEventData eventData)
     {
         for (int i = transform.childCount - 1; i >= 0; i--)
@@ -27,7 +27,10 @@ public class SlotDropHandler : MonoBehaviour, IDropHandler, IPointerClickHandler
             var child = transform.GetChild(i);
             var draggable = child.GetComponent<Draggable>();
             if (draggable != null)
+            {
+                sequenceChecker.UnregisterBlock(draggable.GetComponent<Block>()); // âœ… ì œê±°
                 draggable.ResetToInitial();
+            }
         }
     }
 }

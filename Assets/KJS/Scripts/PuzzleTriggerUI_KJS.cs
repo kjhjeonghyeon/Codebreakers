@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -9,10 +8,12 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
     public PlayerMove_KJS playerMovementScript;
     public CameraMove cameraScript;
     public ScoreManager_KJS scoreManager;
-    private bool hasStartedScoring = false;
-    public bool isScorable = true; // 퍼즐별 점수화 여부 결정
-    public TextMeshProUGUI infoText; // false일 때 출력할 안내 텍스트
+    public SequenceChecker sequenceChecker; // ✅ SequenceChecker 연결
+    public TextMeshProUGUI infoText; // 오답 안내만 표시
 
+    private bool hasStartedScoring = false;
+
+    private GameObject lastPuzzleObject;
 
     void Start()
     {
@@ -20,14 +21,17 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
             uiPanel.SetActive(false);
 
         if (infoText != null)
-            infoText.gameObject.SetActive(false); // ✅ 시작 시 비활성화
+            infoText.gameObject.SetActive(false);
 
         LockCursor(true);
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Puzzle"))
         {
+            lastPuzzleObject = other.gameObject; // ✅ 여기 저장
+
             if (uiPanel != null)
                 uiPanel.SetActive(true);
 
@@ -39,7 +43,6 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
 
             LockCursor(false);
 
-            // ✅ 점수 시작은 한 번만
             if (!hasStartedScoring && scoreManager != null)
             {
                 scoreManager.StartScoring();
@@ -56,19 +59,32 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
 
     public void ClosePuzzleUI()
     {
-        if (!isScorable)
+        if (sequenceChecker == null)
+        {
+            Debug.LogWarning("SequenceChecker가 연결되어 있지 않습니다.");
+            return;
+        }
+
+        bool isCorrect = sequenceChecker.OnSubmitByPosition();
+
+        if (!isCorrect)
         {
             if (infoText != null)
             {
-                infoText.text = "False";
-                infoText.gameObject.SetActive(true); // ✅ 텍스트 표시
-                StartCoroutine(HideInfoTextAfterDelay(3f)); // ✅ 3초 후 숨김
+                infoText.text = "순서가 올바르지 않습니다.";
+                infoText.gameObject.SetActive(true);
+                StartCoroutine(HideInfoTextAfterDelay(3f));
             }
-
-            return; // UI 닫지 않음
+            return;
         }
 
-        // ✅ 점수화 퍼즐일 경우 → 기존 로직 유지
+        // ✅ 정답일 경우: 접촉한 퍼즐만 비활성화
+        if (lastPuzzleObject != null)
+        {
+            Debug.Log($"✅ 정답 → 퍼즐 오브젝트 비활성화: {lastPuzzleObject.name}");
+            lastPuzzleObject.SetActive(false);
+        }
+
         if (uiPanel != null)
             uiPanel.SetActive(false);
 
@@ -83,13 +99,12 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
         if (scoreManager != null)
             scoreManager.FinishScoring();
     }
+
     private IEnumerator HideInfoTextAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
         if (infoText != null)
-        {
             infoText.gameObject.SetActive(false);
-        }
     }
 }
+
