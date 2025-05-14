@@ -33,8 +33,15 @@ public class ScoreManager_KJS : MonoBehaviour
 
         if (resultPanel != null)
             resultPanel.SetActive(false);
-        isTimerRunning = false;
+
+        // ✅ 인트로 패널이 없다면 자동으로 타이머 시작
+        bool hasIntroPanel = GameObject.FindObjectOfType<IntroPannel_KJS>() != null;
+        if (!hasIntroPanel)
+        {
+            StartTimer();
+        }
     }
+
 
     void Update()
     {
