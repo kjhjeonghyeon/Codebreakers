@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement; // ← 씬 이동을 위해 필요
 using System.Collections;
 
 public class LoginManager_KJS : MonoBehaviour
@@ -8,7 +9,6 @@ public class LoginManager_KJS : MonoBehaviour
     public TMP_InputField inputEmail;
     public TMP_InputField inputPassword;
 
-    [Header("API 주소")]
     public string loginURL = "https://your.api/login"; // ← 실제 API 주소로 수정
 
     public void OnLoginButtonClicked()
@@ -32,6 +32,9 @@ public class LoginManager_KJS : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("✅ 로그인 성공:\n" + request.downloadHandler.text);
+
+            // 성공 후 메인 씬으로 이동
+            SceneManager.LoadScene("MainScene");
         }
         else
         {
@@ -39,4 +42,5 @@ public class LoginManager_KJS : MonoBehaviour
         }
     }
 }
+
 

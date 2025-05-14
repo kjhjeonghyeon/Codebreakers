@@ -4135,7 +4135,7 @@ MonoBehaviour:
   inputNickname: {fileID: 673983541}
   inputEmail: {fileID: 123628598}
   inputPassword: {fileID: 1167549451}
-  registerURL: https://your.api/register
+  registerURL: http://192.168.0.108:8080/users/signup
 --- !u!4 &2043787972
 Transform:
   m_ObjectHideFlags: 0
