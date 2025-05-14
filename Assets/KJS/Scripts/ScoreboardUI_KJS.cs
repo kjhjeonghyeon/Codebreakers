@@ -17,9 +17,11 @@ public class ScoreboardUI_KJS : MonoBehaviour
 
     IEnumerator FetchRankingData()
     {
-        Debug.Log("▶ 테스트 코루틴 시작됨");
+        Debug.Log("▶ 랭킹 데이터 전송 및 요청 시작");
+
+        // ✅ 점수와 닉네임을 ScoreDataCarrier에서 가져옴
         string nickname = PlayerPrefs.GetString("Nickname", "unknown");
-        int assets = PlayerPrefs.GetInt("Assets", 0);
+        int assets = ScoreDataCarrier_KJS.Instance != null ? ScoreDataCarrier_KJS.Instance.FinalScore : 0;
 
         string requestUrl = $"{rankURL}?nickname={UnityWebRequest.EscapeURL(nickname)}&assets={assets}";
         UnityWebRequest request = UnityWebRequest.Get(requestUrl);
@@ -61,3 +63,4 @@ public class ScoreboardUI_KJS : MonoBehaviour
         }
     }
 }
+
