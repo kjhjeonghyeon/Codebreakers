@@ -5,6 +5,15 @@ public class SceneLoader_KJS : MonoBehaviour
 {
     public void LoadMainScene()
     {
-        SceneManager.LoadScene("MainScene"); // 씬 이름 정확히 일치해야 함
+        // ✅ 점수 및 시간 리셋
+        if (ScoreDataCarrier_KJS.Instance != null)
+        {
+            ScoreDataCarrier_KJS.Instance.Clear();
+            Debug.Log("🔁 ScoreDataCarrier 초기화 완료");
+        }
+
+        // ✅ 씬 이동
+        SceneManager.LoadScene("MainScene");
     }
 }
+
