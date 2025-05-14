@@ -50,21 +50,54 @@ public class RegistrationUI_KJS : MonoBehaviour
 
     private IEnumerator PostRegistrationData(string jsonData)
     {
-        UnityWebRequest request = new UnityWebRequest(registerURL, "POST");
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
+        int maxRetry = 3;
+        int attempt = 0;
+        bool success = false;
 
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
+        while (attempt < maxRetry && !success)
         {
-            Debug.Log("✅ 서버 전송 성공: " + request.downloadHandler.text);
+            attempt++;
+
+            using (UnityWebRequest request = new UnityWebRequest(registerURL, "POST"))
+            {
+                byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+                request.timeout = 10; // 타임아웃 10초
+
+                Debug.Log($"📡 [시도 {attempt}/{maxRetry}] 서버로 전송 중...");
+
+                yield return request.SendWebRequest();
+
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+                    Debug.Log("✅ 서버 전송 성공: " + request.downloadHandler.text);
+                    success = true;
+                    yield break;
+                }
+                else
+                {
+                    Debug.LogWarning($"⚠️ 서버 전송 실패 (시도 {attempt}): {request.error}");
+
+                    // 연결 불가 or timeout 같은 경우 재시도, 그 외는 중단
+                    if (request.result == UnityWebRequest.Result.ConnectionError ||
+                        request.result == UnityWebRequest.Result.ProtocolError ||
+                        request.result == UnityWebRequest.Result.DataProcessingError)
+                    {
+                        yield return new WaitForSeconds(2f); // 재시도 전 대기
+                    }
+                    else
+                    {
+                        break; // 치명적 오류는 반복하지 않음
+                    }
+                }
+            }
         }
-        else
+
+        if (!success)
         {
-            Debug.LogError("❌ 서버 전송 실패: " + request.error);
+            Debug.LogError("❌ 모든 서버 전송 시도 실패");
         }
     }
 }

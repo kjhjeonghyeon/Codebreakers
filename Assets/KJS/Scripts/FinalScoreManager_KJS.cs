@@ -54,10 +54,17 @@ public class FinalScoreManager_KJS : MonoBehaviour
 
     public void FinishScoring()
     {
+        Debug.Log("🧪 FinishScoring() 실행됨");
+
+        finalAmount = Mathf.Max(0, Mathf.FloorToInt(baseAmount - elapsedTime * penaltyPerSecond));
+
+        Debug.Log("📌 점수 계산 완료: " + finalAmount);
+        Debug.Log("📌 resultPanel: " + resultPanel);
+        Debug.Log("📌 resultText: " + resultText);
+        Debug.Log("📌 gradeText: " + gradeText);
+
         ScoreDataCarrier_KJS.Instance.FinalScore = finalAmount;
         ScoreDataCarrier_KJS.Instance.ElapsedTime = elapsedTime;
-
-        Debug.Log($"✅ 저장 완료: {finalAmount}점 / {elapsedTime:0.00}초");
 
         ShowResultUI();
     }
