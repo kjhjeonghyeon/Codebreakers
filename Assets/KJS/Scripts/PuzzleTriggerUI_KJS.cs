@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
-using UnityEngine;
+using System.Collections;
 
 public class PuzzleTriggerUI_KJS : MonoBehaviour
 {
@@ -8,10 +9,11 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
     public PlayerMove_KJS playerMovementScript;
     public CameraMove cameraScript;
     public ScoreManager_KJS scoreManager;
-    public SequenceChecker sequenceChecker; // ✅ SequenceChecker 연결
-    public TextMeshProUGUI infoText; // 오답 안내만 표시
+    public SequenceChecker sequenceChecker;
+    public TextMeshProUGUI infoText;
 
-    private bool hasStartedScoring = false;
+    [Tooltip("정답일 경우 이동할 씬 이름")]
+    public string nextSceneName = "NextScene"; // ✅ 인스펙터에서 설정
 
     private GameObject lastPuzzleObject;
 
@@ -30,7 +32,7 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
     {
         if (other.CompareTag("Puzzle"))
         {
-            lastPuzzleObject = other.gameObject; // ✅ 여기 저장
+            lastPuzzleObject = other.gameObject;
 
             if (uiPanel != null)
                 uiPanel.SetActive(true);
@@ -72,13 +74,23 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
             return;
         }
 
-        // ✅ 정답일 경우: 접촉한 퍼즐만 비활성화
+        // ✅ 정답일 경우 점수 출력 먼저
+        if (scoreManager != null)
+            scoreManager.FinishScoring(); // 내부에서 resultPanel UI 자동 출력
+
+        // ✅ 씬 전환 준비
         if (lastPuzzleObject != null)
         {
-            Debug.Log($"✅ 정답 → 퍼즐 오브젝트 비활성화: {lastPuzzleObject.name}");
-            lastPuzzleObject.SetActive(false);
+            var sceneTarget = lastPuzzleObject.GetComponent<PuzzleSceneTarget_KJS>();
+            if (sceneTarget != null && !string.IsNullOrEmpty(sceneTarget.targetSceneName))
+            {
+                Debug.Log($"✅ 정답 → 점수 출력 후 씬 이동 예약: {sceneTarget.targetSceneName}");
+                StartCoroutine(DelayedSceneLoad(sceneTarget.targetSceneName, 1f)); // 5초 지연 후 씬 이동
+                return;
+            }
         }
 
+        // 예외 상황 처리 (씬 정보가 없을 경우)
         if (uiPanel != null)
             uiPanel.SetActive(false);
 
@@ -89,9 +101,12 @@ public class PuzzleTriggerUI_KJS : MonoBehaviour
             cameraScript.enabled = true;
 
         LockCursor(true);
+    }
 
-        if (scoreManager != null)
-            scoreManager.FinishScoring();
+    private IEnumerator DelayedSceneLoad(string sceneName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(sceneName);
     }
 
     private IEnumerator HideInfoTextAfterDelay(float delay)

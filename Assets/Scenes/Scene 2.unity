@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2de5682e3f52447b0f75d9f117aa34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: Scene 4
+  targetSceneName: Scene 3
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2de5682e3f52447b0f75d9f117aa34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: Scene 2
+  targetSceneName: Scane 2
 --- !u!1001 &751003825
 PrefabInstance:
   m_ObjectHideFlags: 0

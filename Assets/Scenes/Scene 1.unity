@@ -427,7 +427,6 @@ GameObject:
   - component: {fileID: 387652254}
   - component: {fileID: 387652253}
   - component: {fileID: 387652252}
-  - component: {fileID: 387652256}
   m_Layer: 0
   m_Name: Machine
   m_TagString: Puzzle
@@ -521,19 +520,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &387652256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 387652251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2de5682e3f52447b0f75d9f117aa34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetSceneName: Scene 1
 --- !u!1 &399254441
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,10 +635,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 399254441}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2de5682e3f52447b0f75d9f117aa34, type: 3}
+  m_Script: {fileID: 11500000, guid: e07f4c4b06b57b64598e2f5dd260a840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: Scene 4
+  resultPanel: {fileID: 0}
+  resultText: {fileID: 0}
+  gradeText: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,7 +893,6 @@ GameObject:
   - component: {fileID: 650679783}
   - component: {fileID: 650679782}
   - component: {fileID: 650679781}
-  - component: {fileID: 650679785}
   m_Layer: 0
   m_Name: Machine (1)
   m_TagString: Puzzle
@@ -999,19 +986,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &650679785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 650679780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2de5682e3f52447b0f75d9f117aa34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetSceneName: Scene 2
 --- !u!1001 &751003825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1043,7 +1017,7 @@ PrefabInstance:
     - target: {fileID: 2059463791162377301, guid: 8839fbc3a5e42e845afc0a91334154da,
         type: 3}
       propertyPath: nextSceneName
-      value: 
+      value: Scene1
       objectReference: {fileID: 0}
     - target: {fileID: 2059463791162377301, guid: 8839fbc3a5e42e845afc0a91334154da,
         type: 3}
@@ -1734,7 +1708,6 @@ GameObject:
   - component: {fileID: 1354147873}
   - component: {fileID: 1354147872}
   - component: {fileID: 1354147871}
-  - component: {fileID: 1354147875}
   m_Layer: 0
   m_Name: Machine (2)
   m_TagString: Puzzle
@@ -1828,19 +1801,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1354147875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1354147870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2de5682e3f52447b0f75d9f117aa34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetSceneName: Scene 3
 --- !u!4 &1405705867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5358664532732775090, guid: 8839fbc3a5e42e845afc0a91334154da,
